@@ -1,5 +1,4 @@
 from  aquisition import getData
-import loadData 
 import pandas as pd 
 import tensorflow as tf
 import numpy as np 
@@ -63,7 +62,6 @@ def sequencing(dataframe,label_column,n_previous,n_next):
     return samples, closing
 
 def read_data_from_file(file_data):
-    print("read_data_from_file")
     try:
         file_path = file_data["PATH"]
     except:
@@ -73,7 +71,7 @@ def read_data_from_file(file_data):
     dataframe.drop(dataframe.columns.values[0], axis=1, inplace=True)
     
     try:
-        print(file_data["COLUMNS"])
+        #print(file_data["COLUMNS"])
         returned_dataframe=dataframe[file_data["COLUMNS"]].copy()
     except:
         print("Bad json format: column names not found in csv")
@@ -86,12 +84,12 @@ def iterate_file_list(file_list):
     k = 0
     final_dataframe = pd.DataFrame()
     for file_data in file_list:
-        print(file_data)
+        #print(file_data)
         obtained_dataframe = read_data_from_file(file_data)
         if final_dataframe.empty:
             final_dataframe = obtained_dataframe
         else:
-            print("joining tables")
+             #print("joining tables")
              ## TODO: Trim final_dataframe and obtained_dataframe in order to have the same length
              ## Trim the longer dataframe from the beginning
             len_final_dataframe=len(final_dataframe.index)

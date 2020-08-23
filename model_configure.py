@@ -1,5 +1,4 @@
 from  aquisition import getData
-import loadData 
 import pandas as pd 
 import tensorflow as tf
 import numpy as np 
@@ -46,23 +45,14 @@ def train_model(X,Y,model,training_config):
     print(y_test.shape)
     model.fit(x_train, y_train, epochs=epochs,callbacks=[tensorboard_callback],validation_data=(x_test,y_test), verbose = 1, batch_size = batch_size)
   #  model.fit(x_train, y_train,batch_size=batch_size, epochs=epochs,callbacks=[tensorboard_callback],validation_data=(x_test,y_test), verbose = 1)
-
-    model.save(saved_model_path) 
-
     return model
-
-
-
-
-
-
 
 def model_configuration(model_config,input_shape,output_shape):
     if len(input_shape) != 3:
         raise ValueError("Invalid input data! It is not 3d")
     if len(output_shape) != 2:
         raise ValueError("Invalid output data! It is not 2d")
-
+    
     model = iterate_json_layers(model_config["MODEL"], input_shape, output_shape)
     print(model.summary())
     return model
@@ -87,13 +77,13 @@ def iterate_json_layers(model_blueprint, input_shape, output_shape):
     return model
 
 def create_layer(layer, input_shape = None, output_shape = None):
+    print("LAYER: " + json.dumps(layer))
     layer_type = extract_from_json(layer, "layer_type")
     if layer_type=="LSTM":
         units=int(extract_from_json(layer,"units"))
         activation=extract_from_json(layer,"activation")
-        return_sequences = extract_from_json(layer,"return_sequences") is "True"
+        return_sequences = (extract_from_json(layer,"return_sequences") == "True")
         if input_shape:
-            
             return tf.keras.layers.LSTM(units=units,activation=activation ,return_sequences=return_sequences, input_shape=(input_shape[1], input_shape[2]))
         else:
             return tf.keras.layers.LSTM(units=units,activation=activation ,return_sequences=return_sequences)

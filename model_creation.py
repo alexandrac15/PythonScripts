@@ -1,5 +1,4 @@
 from  aquisition import getData
-import loadData 
 import pandas as pd 
 import tensorflow as tf
 import numpy as np 
@@ -11,6 +10,7 @@ import sys
 from data_preprocessing import *
 from model_configure import *
 from sklearn.externals import joblib 
+import os
 
 def extract_from_json(json, feature):
     try:
@@ -66,22 +66,37 @@ def model_creator(json_config):
     # Get X and Y dataframe for the model alongside the scaler which are to be saved
     X, Y, X_scalar, Y_scalar = data_provider(data_config)
     
+    print("###########################################")
+    print("shape x = " + json.dumps(X.shape))
+    print("shape y = " + json.dumps(Y.shape))
+    print("###########################################")
+
     # Create and train the model
     model=model_configuration(model_config,X.shape,Y.shape)
-    train_model(X,Y,model,training_config)
+    trained_model = train_model(X,Y,model,training_config)
+
+    # Save model
+    trained_model.save(model_saved_path) 
+
+    # print(model_saved_path)
+    # if not os.path.exists(model_saved_path+"\\"):
+    #     os.mkdir(model_saved_path+"\\", mode=0x777)
+
 
     # Save scalars
-    joblib.dump(X_scalar, "X_scalar.pkl")
-    joblib.dump(Y_scalar, "Y_scalar.pkl")
+    joblib.dump(X_scalar, model_saved_path + "X_scalar.pkl")
+    joblib.dump(Y_scalar, model_saved_path + "Y_scalar.pkl")
 
     # Save the json
-    f = open(model_saved_path+"\\json_model.txt", "w+")
-    f.write(json.dumps(json_config))
-    f.close()
+    try:
+        f = open(model_saved_path+"\json_model.txt", 'w+')
+        f.write(json.dumps(json_config))
+        f.close()
+    except:
+        pass
 
-
-    X_scaler_new = joblib.load("X_scalar.pkl") 
-    Y_scaler_new = joblib.load("Y_scalar.pkl")
+    X_scaler_new = joblib.load(model_saved_path + "X_scalar.pkl") 
+    Y_scaler_new = joblib.load(model_saved_path + "Y_scalar.pkl")
 
 
     in_files_new = extract_from_json(data_config, "INPUT_FILES")
@@ -99,22 +114,9 @@ def model_creator(json_config):
 
 
 
-
-
-
-
-
-
-
-
-
-
-#model_creator(JSON_CONFIGURARE)
-
 if __name__ == "__main__":
     arguments= sys.argv
-    print("OK 1")
-    # print(sys.argv[1])
-    #print(sys.argv[1])
-    model_creator(JSON_CONFIGURARE)
+    data = json.loads(sys.argv[1])
+    model_creator(data)
     print("GATA")
+
