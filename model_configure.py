@@ -30,9 +30,31 @@ def train_model(X,Y,model,training_config):
     split=float(extract_from_json(training_config,"SPLIT"))
     
     if optimizer== "SGD":
-        optimizer=tf.keras.optimizers.SGD(lr=learn_rate)
+        print("SGD lr = " + str(learn_rate))
+        optimizer = tf.keras.optimizers.SGD(lr=learn_rate)
     elif optimizer=="ADAM":
-        optimizer=tf.keras.optimizers.Adam(lr=learn_rate)
+        print("ADAM lr = " + str(learn_rate))
+        optimizer = tf.keras.optimizers.Adam(lr=learn_rate)
+    elif optimizer=="RMSPROP":
+        print("RMSPROP lr = " + str(learn_rate))
+        optimizer = tf.keras.optimizers.RMSprop(lr = learn_rate)
+    elif optimizer=="ADADELTA":
+        print("ADADELTA lr = " + str(learn_rate))
+        optimizer = tf.keras.optimizers.Adadelta(lr=learn_rate)
+    elif optimizer=="ADAGRAD":
+        print("ADAGRAD lr = " + str(learn_rate))
+        optimizer = tf.keras.optimizers.Adagrad(lr=learn_rate)
+    elif optimizer=="ADAMAX":
+        print("ADAMAX lr = " + str(learn_rate))
+        optimizer = tf.keras.optimizers.Adamax(lr=learn_rate)
+    elif optimizer=="NADAM":
+        print("NADAM lr = " + str(learn_rate))
+        optimizer = tf.keras.optimizers.Nadam(lr=learn_rate)
+    elif optimizer=="FTRL":
+        print("FTRL lr = " + str(learn_rate))
+        optimizer = tf.keras.optimizers.Ftrl(lr=learn_rate)
+    else:
+        print("Unknown optimizer, will let proceed")
 
     model.compile(loss = loss,  metrics = ['mse'], optimizer = optimizer)
     x_train,y_train,x_test,y_test=split_data(X,Y,split)

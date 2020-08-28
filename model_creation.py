@@ -21,11 +21,11 @@ def extract_from_json(json, feature):
 JSON_CONFIGURARE = {
     "DATA_CONFIG": {
             "INPUT_FILES": [
-                    {"PATH": "C:\\Users\\aalex\\Stocks Project\\historic_data\\NFLX.csv", "COLUMNS": ["close","volume"]},
+                    {"PATH": "C:\\Users\\aalex\\Stocks_Project\\historic_data\\PG.csv", "COLUMNS": ["close"]},
                     
                 ],
             "OUTPUT_FILES": [
-                    {"PATH": "C:\\Users\\aalex\\Stocks Project\\historic_data\\NFLX.csv", "COLUMNS": ["close"]},
+                    {"PATH": "C:\\Users\\aalex\\Stocks_Project\\historic_data\\PG.csv", "COLUMNS": ["close"]},
                 ],
             "X_PREVIOUS" : 30,
             "Y_PREDICT" : 3,
@@ -33,20 +33,21 @@ JSON_CONFIGURARE = {
 
     "MODEL_CONFIG": {
             "MODEL": [
-                    {"layer_type" : "LSTM", "units" : 40, "activation": "sigmoid", "return_sequences": "True"},
-                    {"layer_type" : "LSTM", "units" : 40, "activation": "sigmoid", "return_sequences": "True"},
+                    # {"layer_type" : "LSTM", "units" : 40, "activation": "sigmoid", "return_sequences": "True"},
+                    # {"layer_type" : "LSTM", "units" : 40, "activation": "sigmoid", "return_sequences": "True"},
+                   
                     {"layer_type" : "LSTM", "units" : 40, "activation": "sigmoid", "return_sequences": "True"},
                     {"layer_type" : "LSTM", "units" : 40, "activation": "sigmoid", "return_sequences": "True"},
                     {"layer_type" : "LSTM", "units" : 40, "activation": "sigmoid", "return_sequences": "False"},
                     {"layer_type" : "DENSE", "units" : 3, "activation": "sigmoid"},
                 ],
-            "TRAINING_CONFIG": {
-                "TENSORBOARD_PATH_CONFIG": "D:\\EXPERIMENTS\\cheie\\NFLX-close-10_3_volume_1",
-                "MODEL_SAVED_PATH": "D:\\EXPERIMENTS\\cheie\\model_NFLX-close-10_3_volume_1",
-                "EPOCHS" : 20,
-                "BATCH_SIZE" : 16,
-                "OPTIMIZER" : "ADAM",
-                "LEARN_RATE" : 0.001,
+            "TRAINING_CONFIG": { 
+                "TENSORBOARD_PATH_CONFIG": "D:\\EXPERIMENTS\\E_OPTIMIZER_PARAMETERS\\PG_NADAM_00115_TB",
+                "MODEL_SAVED_PATH": "D:\\EXPERIMENTS\\E_OPTIMIZER_PARAMETERS\\PG_NADAM_00115",
+                "EPOCHS" : 50,
+                "BATCH_SIZE" : 8,
+                "OPTIMIZER" : "NADAM",
+                "LEARN_RATE" : 0.00115,
                 "LOSS" : "mse",
                 "SPLIT": 0.9
             }

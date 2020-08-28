@@ -12,11 +12,10 @@ def extract_from_json(json, feature):
 
 def read_model_file(model_path):
     try:
-        json_file = open(model_path + "/json_model.txt", "r")
+        json_file = open(model_path + "\\json_model.txt", "r")
     except Exception as e:
         print("Could not open json model config file")
         raise e
-    
     json_config = json_file.read()
     json_file.close()
     predictions = make_prediction(json.loads(json_config))
@@ -39,8 +38,10 @@ def make_prediction(json_config):
 
 
     x_to_predict_on = prediction_preprocessing(in_files_new, x_prev, X_scaler_new)
+
     x_to_predict_on = np.reshape(x_to_predict_on, (1, x_to_predict_on.shape[0], x_to_predict_on.shape[1]))
     model_new = tf.keras.models.load_model(model_saved_path)
+
 
     predictions = model_new.predict(x_to_predict_on)
     predictions = Y_scaler_new.inverse_transform(predictions)

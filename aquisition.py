@@ -22,8 +22,8 @@ def getData(symbol):
     #make sure the columns in the following order
     dffile=df[[	'date',	'uClose','uOpen','uHigh','uLow','uVolume','close','open','high','low','volume','currency','change','changePercent','label','changeOverTime']].copy()
     #save data frame to the   correspoding cvs file
-    dffile.to_csv('C:\\Users\\aalex\\Stocks Project\\historic_data\\'+symbol+'.csv'); 
-  
+    dffile.to_csv('C:\\Users\\aalex\\Stocks_Project\\historic_data\\'+symbol+'.csv'); 
+    print('C:\\\\Users\\\\aalex\\\\Stocks_Project\\\\historic_data\\\\'+symbol+'.csv')
    
 
 if __name__ == "__main__":

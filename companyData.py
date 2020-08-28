@@ -10,23 +10,25 @@ import requests
 import json 
 
 def getCompany(symbol):
-    token="https://www.youtube.com/watch?v=otCpCn0l4Wo"
-    
-    URL= "https://cloud.iexapis.com/stable/stock/"+symbol+"/company/?token="+token;
-   
-    r = requests.get(URL);
+
+    r = requests.get(URL)
+
+    r_logo = requests.get(URL_logo)
+
+
    
     data = r.json() 
-    print(data)
+    data_logo=r_logo.json()
 
-    file=open(r'C:\Users\aalex\Desktop\InformatiiCompanie\\'+symbol+'.txt','w+');
-    file.write(json.dumps(data1)); # json  dictionary in string 
-    file.close()
+    data.update(data_logo)
+    print(data) 
+  
+
+    # file=open(r'C:\Users\aalex\Desktop\InformatiiCompanie\\'+symbol+'.txt','w+');
+    # file.write(json.dumps(data1)); # json  dictionary in string 
+    # file.close()
 
    
-
-
-
 
 if __name__ == "__main__":
     arguments= sys.argv;
