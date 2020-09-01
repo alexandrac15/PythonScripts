@@ -5,7 +5,7 @@ from pandas.io.json import json_normalize
 import json
 
 def loadData(symbol):
-    URL= ""
+    URL= "https://cloud.iexapis.com/stable/stock/"+symbol+"/previous?token=pk_f21b1474e546423f9a39275cb33eed97"
     r = requests.get(url = URL);
  
     data1 = r.json() 

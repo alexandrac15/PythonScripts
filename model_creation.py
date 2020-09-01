@@ -21,13 +21,14 @@ def extract_from_json(json, feature):
 JSON_CONFIGURARE = {
     "DATA_CONFIG": {
             "INPUT_FILES": [
-                    {"PATH": "C:\\Users\\aalex\\Stocks_Project\\historic_data\\PG.csv", "COLUMNS": ["close"]},
+                    {"PATH": "C:\\Users\\aalex\\Stocks_Project\\historic_data\\MEET.csv", "COLUMNS": ["close", "volume"]},
+                    # {"PATH": "C:\\Users\\aalex\\Stocks_Project\\historic_data\\FB.csv", "COLUMNS": ["close", "volume"]},
                     
                 ],
             "OUTPUT_FILES": [
-                    {"PATH": "C:\\Users\\aalex\\Stocks_Project\\historic_data\\PG.csv", "COLUMNS": ["close"]},
+                    {"PATH": "C:\\Users\\aalex\\Stocks_Project\\historic_data\\MEET.csv", "COLUMNS": ["close"]},
                 ],
-            "X_PREVIOUS" : 30,
+            "X_PREVIOUS" : 120,
             "Y_PREDICT" : 3,
         },
 
@@ -42,10 +43,10 @@ JSON_CONFIGURARE = {
                     {"layer_type" : "DENSE", "units" : 3, "activation": "sigmoid"},
                 ],
             "TRAINING_CONFIG": { 
-                "TENSORBOARD_PATH_CONFIG": "D:\\EXPERIMENTS\\E_OPTIMIZER_PARAMETERS\\PG_NADAM_00115_TB",
-                "MODEL_SAVED_PATH": "D:\\EXPERIMENTS\\E_OPTIMIZER_PARAMETERS\\PG_NADAM_00115",
+                "TENSORBOARD_PATH_CONFIG": "D:\\EXPERIMENTS\\E_INDUSTRY\\INTERNET_SOFTWARE\\MEET_CLOSE_TB_3_120",
+                "MODEL_SAVED_PATH": "D:\\EXPERIMENTS\\E_INDUSTRY\\INTERNET_SOFTWARE\\MEET_CLOSE_3_120",
                 "EPOCHS" : 50,
-                "BATCH_SIZE" : 8,
+                "BATCH_SIZE" : 12,
                 "OPTIMIZER" : "NADAM",
                 "LEARN_RATE" : 0.00115,
                 "LOSS" : "mse",
@@ -61,7 +62,14 @@ def model_creator(json_config):
     # Extract data
     data_config = json_config["DATA_CONFIG"]
     model_config = json_config["MODEL_CONFIG"]
+
+    print("OUT: " + str(extract_from_json(data_config, "Y_PREDICT")))
+    print("IN: " + str(extract_from_json(data_config, "X_PREVIOUS")))
+
+
     training_config = extract_from_json (model_config,"TRAINING_CONFIG")
+    print("BATCh SIZE: " + str(extract_from_json(training_config, "BATCH_SIZE")))
+
     model_saved_path=extract_from_json(training_config,"MODEL_SAVED_PATH")
 
     # Get X and Y dataframe for the model alongside the scaler which are to be saved
@@ -116,8 +124,11 @@ def model_creator(json_config):
 
 
 if __name__ == "__main__":
-    arguments= sys.argv
-    data = json.loads(sys.argv[1])
-    model_creator(data)
+    if len(sys.argv) >= 2: 
+        arguments= sys.argv
+        data = json.loads(sys.argv[1])
+        model_creator(data)
+    else:
+        model_creator(JSON_CONFIGURARE)
     print("GATA")
 

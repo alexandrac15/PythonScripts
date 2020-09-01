@@ -10,6 +10,9 @@ import requests
 import json 
 
 def getCompany(symbol):
+    token="pk_f21b1474e546423f9a39275cb33eed97"
+    URL= "https://cloud.iexapis.com/stable/stock/"+symbol+"/company/?token="+token
+    URL_logo= "https://cloud.iexapis.com/stable/stock/"+symbol+"/logo/?token="+token
 
     r = requests.get(URL)
 

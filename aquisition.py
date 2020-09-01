@@ -10,7 +10,7 @@ import json
 
 def getData(symbol):
     
-    token="https://www.youtube.com/watch?v=jhBRfsrBTdo"
+    token="pk_f21b1474e546423f9a39275cb33eed97"
     URL= "https://cloud.iexapis.com/v1/stock/"+symbol+"/chart/max?token="+token;
     #request the data from provider
     r = requests.get(url = URL);
